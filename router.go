@@ -3,6 +3,7 @@ package beego
 import (
 	"net/http"
 	"net/url"
+	"path"
 	"reflect"
 	"regexp"
 	"runtime"
@@ -134,7 +135,7 @@ func (p *ControllerRegistor) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	//static file server
 	for prefix, staticDir := range StaticDir {
 		if strings.HasPrefix(r.URL.Path, prefix) {
-			file := staticDir + r.URL.Path[len(prefix):]
+			file := path.Join(staticDir, r.URL.Path[len(prefix):])
 			http.ServeFile(w, r, file)
 			w.started = true
 			return
